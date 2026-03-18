@@ -49,6 +49,7 @@ type SIP struct {
 	client     *sipgo.Client
 	serverInfo *serverInfo
 	uaOpts     []sipgo.UserAgentOption
+	clientOpts []sipgo.ClientOption
 
 	// Cached request components
 	requestURI sip.Uri
@@ -188,6 +189,7 @@ func (s *SIP) Init() error {
 				Host:   s.LocalAddress,
 			},
 		})
+		s.clientOpts = append(s.clientOpts, sipgo.WithClientHostname(s.LocalAddress))
 	}
 
 	return nil
@@ -201,7 +203,7 @@ func (s *SIP) Start(telegraf.Accumulator) error {
 	s.ua = ua
 
 	// Create SIP client
-	client, err := sipgo.NewClient(ua)
+	client, err := sipgo.NewClient(ua, s.clientOpts...)
 	if err != nil {
 		s.Stop()
 		return fmt.Errorf("creating SIP client failed: %w", err)

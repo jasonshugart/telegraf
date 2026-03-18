@@ -61,7 +61,7 @@ to use them.
   ## If not specified, uses the same value as from_user
   # to_user = ""
 
-  ## Local address to use for outgoing requests
+  ## Local address to use for outgoing requests in the contact and via headers
   # local_address = ""
 
   ## SIP digest authentication credentials
